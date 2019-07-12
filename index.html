@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Formulario chido</title>
+  <style>
+    :root {
+      --shadowColor: hsla(0, 0%, 0%, 0.08);
+    }
+
+    body {
+      font-family: system-ui;
+      background: #f0f3f7;
+      color: rgba(0, 0, 0, .6);
+      margin: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+
+    form {
+      /* border: 1px solid red; */
+      box-shadow: 0 0 5px rgba(0, 0, 0, .2);
+      border-radius: 5px;
+      width: 400px;
+      margin: 0 auto;
+      padding: 2em 1.5em;
+      background: white;
+    }
+
+    label {
+      text-align: center;
+      display: block;
+      padding-bottom: 1em;
+      margin-bottom: 1em;
+      font-size: 1.2em;
+      font-weight: bold;
+      box-shadow: 0 3px 2px -2px var(--shadowColor);
+    }
+
+    input {
+      width: 100%;
+      border-radius: 5px;
+      box-shadow: inset 0 2px 4px 0 var(--shadowColor);
+      font-size: 14px;
+      padding: .8em 1em;
+      box-sizing: border-box;
+      border: 1px solid var(--shadowColor);
+      margin-bottom: 1em;
+      outline: 0;
+    }
+
+    input:focus {
+      box-shadow: 0 0 10px 0 rgba(255, 255, 255, .5);
+    }
+
+    button {
+      color: white;
+      background: #38b765;
+      border: none;
+      width: 100%;
+      padding: .8em 1em;
+      border-radius: 5px;
+      font-size: 1em;
+    }
+
+    .overlay {
+      background: rgba(0, 0, 0, .7);
+      position: fixed;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      z-index: 2;
+      display: none;
+    }
+
+    .overlay.is-active {
+      display: block;
+    }
+
+    input.is-active {
+      position: relative;
+      z-index: 3;
+    }
+
+    button {
+      position: relative;
+      z-index: 3;
+    }
+  </style>
+</head>
+
+<body>
+  <form action="">
+    <label>Inicia Sesión</label>
+    <input type="text" name="name" placeholder="Usuario" autocomplete="off" required />
+    <input type="password" name="password" placeholder="Contraseña" autocomplete="off" required />
+    <button type="submit">Enviar</button>
+  </form>
+  <div class="overlay" id="overlay"></div>
+
+  <script>
+    const $inputList = document.querySelectorAll('input')
+    const $overlay = document.querySelector('#overlay')
+
+    $inputList.forEach($input => {
+      $input.addEventListener('focus', focus)
+      $input.addEventListener('blur', blur)
+    })
+
+    $overlay.addEventListener('click', (event) => {
+      console.log(event)
+      $overlay.classList.remove('is-active')
+      const $maybeIsAnInput = document.elementFromPoint(event.clientX, event.clientY)
+      if ($maybeIsAnInput.tagName === 'INPUT') {
+        $maybeIsAnInput.focus()
+      }
+    })
+
+    function focus(event) {
+      console.log('focus')
+      event.target.classList.add('is-active')
+      $overlay.classList.add('is-active')
+    }
+
+    function blur(event) {
+      console.log('blur')
+      event.target.classList.remove('is-active')
+      // $overlay.classList.remove('is-active')
+    }
+  </script>
+</body>
+
+</html>
